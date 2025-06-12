@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const Feedback = require('../models/Feedback'); // adjust if your model path is different
+const Feedback = require('../models/Feedback');
 
-// 📁 Set up multer storage configuration
+// 📁 Multer storage config
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/'); // Make sure this folder exists
+    cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// 📨 POST /api/feedback - submit feedback (with file support)
+// 📨 POST /api/feedback - submit feedback with file
 router.post('/', upload.single('file'), async (req, res) => {
   try {
     const { name, email, feedbackText, category, anonymous } = req.body;
@@ -26,10 +26,12 @@ router.post('/', upload.single('file'), async (req, res) => {
     const feedback = new Feedback({
       name,
       email,
-      message: feedbackText, // ✅ fix field name
+      message: feedbackText, // ✅ correct field
       category,
       anonymous,
-      fileUrl: req.file ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` : null, // ✅ Public URL
+      fileUrl: req.file
+        ? `https://${req.get('host')}/uploads/${req.file.filename}` // ✅ hardcoded https for Render
+        : null,
     });
 
     console.log('📩 Received feedback submission:', feedback);
@@ -45,7 +47,7 @@ router.post('/', upload.single('file'), async (req, res) => {
 // 📥 GET /api/feedback - fetch all feedbacks
 router.get('/', async (req, res) => {
   try {
-    const feedbacks = await Feedback.find().sort({ createdAt: -1 }); // newest first
+    const feedbacks = await Feedback.find().sort({ createdAt: -1 });
     res.status(200).json(feedbacks);
   } catch (error) {
     console.error('❌ Error fetching feedbacks:', error.message);
