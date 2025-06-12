@@ -11,9 +11,10 @@ const feedbackSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ['Complaint', 'Suggestion', 'Inquiry'],
+    enum: ['Complaint','Compliment', 'Suggestion', 'Inquiry', 'Compliment'],
     required: true
   },
+  
   message: {
     type: String,
     required: true

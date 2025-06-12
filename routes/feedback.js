@@ -26,7 +26,7 @@ router.post('/', upload.single('file'), async (req, res) => {
     const feedback = new Feedback({
       name,
       email,
-      feedbackText,
+      message,
       category,
       anonymous,
       fileUrl: req.file ? req.file.path : null, // Store uploaded file path
