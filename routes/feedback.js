@@ -23,14 +23,14 @@ router.post('/', upload.single('file'), async (req, res) => {
   try {
     const { name, email, feedbackText, category, anonymous } = req.body;
 
-const feedback = new Feedback({
-  name,
-  email,
-  message: feedbackText, // ✅ This fixes the "message is not defined" error
-  category,
-  anonymous,
-  fileUrl: req.file ? req.file.path : null,
-});
+    const feedback = new Feedback({
+      name,
+      email,
+      message: feedbackText, // ✅ fix field name
+      category,
+      anonymous,
+      fileUrl: req.file ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` : null, // ✅ Public URL
+    });
 
     console.log('📩 Received feedback submission:', feedback);
 
