@@ -30,9 +30,9 @@ router.post('/', upload.single('file'), async (req, res) => {
       category,
       anonymous,
       fileUrl: req.file
-        ? `https://${req.get('host')}/uploads/${req.file.filename}` // ✅ hardcoded https for Render
-        : null,
-    });
+  ? `https://the-musyawa-hotell-feedback-and.onrender.com/uploads/${req.file.filename}`
+  : null,
+
 
     console.log('📩 Received feedback submission:', feedback);
 
