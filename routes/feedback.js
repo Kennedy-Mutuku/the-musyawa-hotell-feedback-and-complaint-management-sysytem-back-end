@@ -36,7 +36,7 @@ router.post('/', upload.single('file'), async (req, res) => {
       fileUrl: req.file
     ? `https://the-musyawa-hotell-feedback-and.onrender.com/uploads/${req.file.filename}`
     : null,
-    submittedAt: new Date()
+    submittedAt: new Date(),
     });
 
     console.log("✅ Received feedback submission:", feedback);
