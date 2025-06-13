@@ -11,13 +11,20 @@ const feedbackSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ['Complaint','Compliment', 'Suggestion', 'Inquiry', 'Compliment'],
+    enum: ['Complaint', 'Compliment', 'Suggestion', 'Inquiry', 'Report Corruption', 'Other'],
     required: true
   },
-  
   message: {
     type: String,
     required: true
+  },
+  anonymous: {
+    type: Boolean,
+    default: false
+  },
+  fileUrl: {
+    type: String,
+    default: null
   },
   submittedAt: {
     type: Date,
