@@ -4,13 +4,13 @@ const multer = require('multer');
 const path = require('path');
 const Feedback = require('../models/Feedback');
 
-// 📁 Multer storage config
+// Configure Multer storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
     const ext = path.extname(file.originalname);
     cb(null, file.fieldname + '-' + uniqueSuffix + ext);
   }
@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// 📨 POST /api/feedback - submit feedback with file
+// POST /api/feedback - Submit feedback with file
 router.post('/', upload.single('file'), async (req, res) => {
   try {
     const { name, email, feedbackText, category, anonymous } = req.body;
@@ -26,15 +26,15 @@ router.post('/', upload.single('file'), async (req, res) => {
     const feedback = new Feedback({
       name,
       email,
-      message: feedbackText, // ✅ correct field
+      message: feedbackText,
       category,
       anonymous,
       fileUrl: req.file
-  ? `https://the-musyawa-hotell-feedback-and.onrender.com/uploads/${req.file.filename}`
-  : null,
+        ? `https://the-musyawa-hotell-feedback-and.onrender.com/uploads/${req.file.filename}`
+        : null,
+    });
 
-
-  console.log("Received feedback submission:", feedback);
+    console.log('✅ Received feedback submission:', feedback);
 
     await feedback.save();
     res.status(201).json({ message: 'Feedback submitted successfully' });
@@ -44,7 +44,7 @@ router.post('/', upload.single('file'), async (req, res) => {
   }
 });
 
-// 📥 GET /api/feedback - fetch all feedbacks
+// GET /api/feedback - Fetch all feedback
 router.get('/', async (req, res) => {
   try {
     const feedbacks = await Feedback.find().sort({ createdAt: -1 });
@@ -55,7 +55,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// 🗑 DELETE /api/feedback/:id
+// DELETE /api/feedback/:id
 router.delete('/:id', async (req, res) => {
   try {
     const deleted = await Feedback.findByIdAndDelete(req.params.id);
