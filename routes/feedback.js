@@ -34,7 +34,7 @@ router.post('/', upload.single('file'), async (req, res) => {
   : null,
 
 
-    console.log('📩 Received feedback submission:', feedback);
+  console.log('Received feedback submission:', feedback);
 
     await feedback.save();
     res.status(201).json({ message: 'Feedback submitted successfully' });
