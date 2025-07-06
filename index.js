@@ -7,13 +7,12 @@ const feedbackRoutes = require('./routes/feedback');
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 
-// Load environment variables from .env file
+
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB and start server
 const startServer = async () => {
   try {
     await connectDB();
@@ -24,7 +23,6 @@ const startServer = async () => {
     app.use(express.json());
 
     // Serve uploaded files statically from /uploads
-    // Use absolute path to avoid any path issues
     app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
     // Health check endpoint
